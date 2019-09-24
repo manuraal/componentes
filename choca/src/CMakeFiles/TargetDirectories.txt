@@ -1,0 +1,8 @@
+/home/salabeta/robocomp/components/componentes/choca/src/CMakeFiles/install/strip.dir
+/home/salabeta/robocomp/components/componentes/choca/src/CMakeFiles/edit_cache.dir
+/home/salabeta/robocomp/components/componentes/choca/src/CMakeFiles/choca.dir
+/home/salabeta/robocomp/components/componentes/choca/src/CMakeFiles/install.dir
+/home/salabeta/robocomp/components/componentes/choca/src/CMakeFiles/rebuild_cache.dir
+/home/salabeta/robocomp/components/componentes/choca/src/CMakeFiles/list_install_components.dir
+/home/salabeta/robocomp/components/componentes/choca/src/CMakeFiles/install/local.dir
+/home/salabeta/robocomp/components/componentes/choca/src/CMakeFiles/choca_autogen.dir
