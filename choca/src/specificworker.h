@@ -29,6 +29,13 @@
 
 #include <genericworker.h>
 #include <innermodel/innermodel.h>
+#include "grid.h"
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsEllipseItem>
+#include <iostream>
+#include <fstream>
+#include <queue>
 
 class SpecificWorker : public GenericWorker
 {
@@ -42,6 +49,7 @@ public:
 public slots:
 	void compute();
 	void initialize(int period);
+	void movement();
 //Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();
@@ -50,7 +58,27 @@ public slots:
 //--------------------
 private:
 	std::shared_ptr<InnerModel> innerModel;
-
+	QGraphicsScene scene;
+	QGraphicsView view;
+	QGraphicsRectItem *robot;
+	QGraphicsEllipseItem *noserobot;
+	QVec target;
+	int tilesize;
+	/// Grid
+	struct TCell
+	{
+		uint id;
+		bool free;
+		bool visited;
+		QGraphicsRectItem* rect;
+		float cost = 1;
+			
+		// method to save the value
+		void save(std::ostream &os) const {	os << free << " " << visited; };
+		void read(std::istream &is) {	is >> free >> visited ;};
+	};
+	using TDim = Grid<TCell>::Dimensions;
+	Grid<TCell> grid;
 };
 
 #endif

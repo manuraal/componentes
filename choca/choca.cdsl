@@ -8,5 +8,6 @@ Component choca
 		requires DifferentialRobot, Laser;
 	};
 	language Cpp11;
+	gui Qt(QWidget);
 	statemachine "statemachine.smdsl";
 };

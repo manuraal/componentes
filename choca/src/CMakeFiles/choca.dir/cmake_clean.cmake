@@ -23,8 +23,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/choca.dir/DifferentialRobot.cpp.o"
   "CMakeFiles/choca.dir/Laser.cpp.o"
   "CMakeFiles/choca.dir/choca_autogen/mocs_compilation.cpp.o"
-  "/bin/choca.pdb"
-  "/bin/choca"
+  "../bin/choca.pdb"
+  "../bin/choca"
 )
 
 # Per-language clean rules from dependency scanning.
