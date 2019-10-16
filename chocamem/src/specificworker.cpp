@@ -18,11 +18,22 @@
  */
 #include "specificworker.h"
 
+const float threshold = 200; // millimeters
+float rot = 0.6;			 // rads per second
+
+enum Estados
+{
+	base,
+	obstaculo
+};
+
+Estados estado = base;
 /**
 * \brief Default constructor
 */
-SpecificWorker::SpecificWorker(MapPrx& mprx) : GenericWorker(mprx)
-{}
+SpecificWorker::SpecificWorker(MapPrx &mprx) : GenericWorker(mprx)
+{
+}
 
 /**
 * \brief Default destructor
@@ -34,7 +45,7 @@ SpecificWorker::~SpecificWorker()
 
 bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 {
-	
+
 	RoboCompCommonBehavior::Parameter par = params.at("InnerModelPath");
 	innerModel = std::make_shared<InnerModel>(par.value);
 	xmin = std::stoi(params.at("xmin").value);
@@ -44,24 +55,24 @@ bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 	tilesize = std::stoi(params.at("tilesize").value);
 
 	// Scene
- 	scene.setSceneRect(xmin, ymin, fabs(xmin)+fabs(xmax), fabs(ymin)+fabs(ymax));
- 	view.setScene(&scene);
- 	view.scale(1, -1);
- 	view.setParent(scrollArea);
- 	view.fitInView(scene.sceneRect(), Qt::KeepAspectRatio );
-	grid.initialize( TDim{ tilesize, xmin, xmax, ymin, ymax}, TCell{true, false, nullptr} );
+	scene.setSceneRect(xmin, ymin, fabs(xmin) + fabs(xmax), fabs(ymin) + fabs(ymax));
+	view.setScene(&scene);
+	view.scale(1, -1);
+	view.setParent(scrollArea);
+	view.fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
+	grid.initialize(TDim{tilesize, xmin, xmax, ymin, ymax}, TCell{true, false, nullptr});
 
 	qDebug() << "Grid initialize ok";
 
-	for(auto &[key, value] : grid)
- 	{
-	 	value.rect = scene.addRect(-tilesize/2,-tilesize/2, 100,100, QPen(Qt::NoPen));			
-		value.rect->setPos(key.x,key.z);
+	for (auto &[key, value] : grid)
+	{
+		value.rect = scene.addRect(-tilesize / 2, -tilesize / 2, 100, 100, QPen(Qt::NoPen));
+		value.rect->setPos(key.x, key.z);
 	}
 
- 	robot = scene.addRect(QRectF(-200, -200, 400, 400), QPen(), QBrush(Qt::blue));
- 	noserobot = new QGraphicsEllipseItem(-50,100, 100,100, robot);
- 	noserobot->setBrush(Qt::magenta);
+	robot = scene.addRect(QRectF(-200, -200, 400, 400), QPen(), QBrush(Qt::blue));
+	noserobot = new QGraphicsEllipseItem(-50, 100, 100, 100, robot);
+	noserobot->setBrush(Qt::magenta);
 
 	view.show();
 	return true;
@@ -74,19 +85,53 @@ void SpecificWorker::initialize(int period)
 	this->Period = period;
 	timer.start(Period);
 	qDebug() << "End initialize";
-
 }
 
 void SpecificWorker::compute()
 {
 	readRobotState();
+	//estado = obstaculo;
+	std::cout <<   estado << std::endl;
 
 	/// AQUI LA MAQUINA DE ESTADOS
-	switch(){
-		
+	switch (estado)
+	{
+	case base:
+		try
+		{
+			RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+			differentialrobot_proxy->setSpeedBase(200, 0);
+			std::cout << "Estoy en base" << std::endl;
+			if (ldata.front().dist < threshold)
+			{
+				std::cout << "Estoy en en if" << std::endl;
+				estado = obstaculo;				
+			}
+		}
+		catch (const Ice::Exception &ex)
+		{
+			std::cout << ex << std::endl;
+		}
+		break;
+	case obstaculo:
+		try
+		{
+			RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+			differentialrobot_proxy->setSpeedBase(0, 0);
+			std::cout << "Estoy en obstaculo" << std::endl;
+			
+		}
+		catch (const Ice::Exception &ex)
+		{
+			std::cout << ex << std::endl;
+		}
+		break;
+	default:
+			std::cout<<"default\n";
 	}
 }
-	
 
 void SpecificWorker::readRobotState()
 {
@@ -95,33 +140,32 @@ void SpecificWorker::readRobotState()
 		differentialrobot_proxy->getBaseState(bState);
 		innerModel->updateTransformValues("base", bState.x, 0, bState.z, 0, bState.alpha, 0);
 		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
-		
+
 		//draw robot
 		robot->setPos(bState.x, bState.z);
-		robot->setRotation(-180.*bState.alpha/M_PI);
+		robot->setRotation(-180. * bState.alpha / M_PI);
 
 		//update  occupied cells
 		updateOccupiedCells(bState, ldata);
 	}
-	catch(const Ice::Exception &e)
+	catch (const Ice::Exception &e)
 	{
 		std::cout << "Error reading from Laser" << e << std::endl;
 	}
 	//Resize world widget if necessary, and render the world
 	if (view.size() != scrollArea->size())
-	 		view.setFixedSize(scrollArea->width(), scrollArea->height());
-	
+		view.setFixedSize(scrollArea->width(), scrollArea->height());
 }
 
 void SpecificWorker::updateOccupiedCells(const RoboCompGenericBase::TBaseState &bState, const RoboCompLaser::TLaserData &ldata)
 {
 	InnerModelLaser *n = innerModel->getNode<InnerModelLaser>(QString("laser"));
-	for(auto l: ldata)
+	for (auto l : ldata)
 	{
-		auto r = n->laserTo(QString("world"), l.dist, l.angle);	// r is in world reference system
-		// we set the cell corresponding to r as occupied 
-		auto [valid, cell] = grid.getCell(r.x(), r.z()); 
-		if(valid)
+		auto r = n->laserTo(QString("world"), l.dist, l.angle); // r is in world reference system
+		// we set the cell corresponding to r as occupied
+		auto [valid, cell] = grid.getCell(r.x(), r.z());
+		if (valid)
 		{
 			cell.free = false;
 			cell.rect->setBrush(Qt::darkRed);
@@ -129,16 +173,11 @@ void SpecificWorker::updateOccupiedCells(const RoboCompGenericBase::TBaseState &
 	}
 }
 
-
 ///////////////////////////////////////////////////////////////////77
 ////  SUBSCRIPTION
 /////////////////////////////////////////////////////////////////////
 
 void SpecificWorker::RCISMousePicker_setPick(const Pick &myPick)
 {
-//subscribesToCODE
-
+	//subscribesToCODE
 }
-
-
-
