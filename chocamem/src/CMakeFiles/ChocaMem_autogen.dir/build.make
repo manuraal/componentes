@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/salabeta/robocomp/components/beta-robotica-class/chocamem
+CMAKE_SOURCE_DIR = /home/salabeta/robocomp/components/componentes/chocamem
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/salabeta/robocomp/components/beta-robotica-class/chocamem
+CMAKE_BINARY_DIR = /home/salabeta/robocomp/components/componentes/chocamem
 
 # Utility rule file for ChocaMem_autogen.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/salabeta/robocomp/components/beta-robotica-class/chocam
 include src/CMakeFiles/ChocaMem_autogen.dir/progress.make
 
 src/CMakeFiles/ChocaMem_autogen:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/salabeta/robocomp/components/beta-robotica-class/chocamem/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target ChocaMem"
-	cd /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src && /usr/bin/cmake -E cmake_autogen /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/CMakeFiles/ChocaMem_autogen.dir ""
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/salabeta/robocomp/components/componentes/chocamem/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target ChocaMem"
+	cd /home/salabeta/robocomp/components/componentes/chocamem/src && /usr/bin/cmake -E cmake_autogen /home/salabeta/robocomp/components/componentes/chocamem/src/CMakeFiles/ChocaMem_autogen.dir ""
 
 ChocaMem_autogen: src/CMakeFiles/ChocaMem_autogen
 ChocaMem_autogen: src/CMakeFiles/ChocaMem_autogen.dir/build.make
@@ -68,10 +68,10 @@ src/CMakeFiles/ChocaMem_autogen.dir/build: ChocaMem_autogen
 .PHONY : src/CMakeFiles/ChocaMem_autogen.dir/build
 
 src/CMakeFiles/ChocaMem_autogen.dir/clean:
-	cd /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src && $(CMAKE_COMMAND) -P CMakeFiles/ChocaMem_autogen.dir/cmake_clean.cmake
+	cd /home/salabeta/robocomp/components/componentes/chocamem/src && $(CMAKE_COMMAND) -P CMakeFiles/ChocaMem_autogen.dir/cmake_clean.cmake
 .PHONY : src/CMakeFiles/ChocaMem_autogen.dir/clean
 
 src/CMakeFiles/ChocaMem_autogen.dir/depend:
-	cd /home/salabeta/robocomp/components/beta-robotica-class/chocamem && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/salabeta/robocomp/components/beta-robotica-class/chocamem /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src /home/salabeta/robocomp/components/beta-robotica-class/chocamem /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/CMakeFiles/ChocaMem_autogen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/salabeta/robocomp/components/componentes/chocamem && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/salabeta/robocomp/components/componentes/chocamem /home/salabeta/robocomp/components/componentes/chocamem/src /home/salabeta/robocomp/components/componentes/chocamem /home/salabeta/robocomp/components/componentes/chocamem/src /home/salabeta/robocomp/components/componentes/chocamem/src/CMakeFiles/ChocaMem_autogen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/CMakeFiles/ChocaMem_autogen.dir/depend
 

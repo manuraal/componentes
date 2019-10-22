@@ -464,17 +464,17 @@ src/CMakeFiles/ChocaMem.dir/ChocaMem_autogen/mocs_compilation.cpp.o
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwidgetaction.h
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwizard.h
  /home/salabeta/robocomp/classes/qlog/qlog.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/ChocaMem_autogen/EWIEGA46WW/moc_genericmonitor.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/ChocaMem_autogen/EWIEGA46WW/moc_genericworker.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/ChocaMem_autogen/EWIEGA46WW/moc_specificmonitor.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/ChocaMem_autogen/EWIEGA46WW/moc_specificworker.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/ChocaMem_autogen/mocs_compilation.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/config.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericmonitor.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericworker.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/grid.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/specificmonitor.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/specificworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/ChocaMem_autogen/EWIEGA46WW/moc_genericmonitor.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/ChocaMem_autogen/EWIEGA46WW/moc_genericworker.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/ChocaMem_autogen/EWIEGA46WW/moc_specificmonitor.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/ChocaMem_autogen/EWIEGA46WW/moc_specificworker.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/ChocaMem_autogen/mocs_compilation.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/config.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericmonitor.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/grid.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/specificmonitor.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/specificworker.h
  /opt/robocomp/include/innermodel/innermodel.h
  /opt/robocomp/include/innermodel/innermodelcamera.h
  /opt/robocomp/include/innermodel/innermodelconfig.h
@@ -513,21 +513,21 @@ src/CMakeFiles/ChocaMem.dir/ChocaMem_autogen/mocs_compilation.cpp.o
  src/Laser.h
  src/RCISMousePicker.h
 src/CMakeFiles/ChocaMem.dir/CommonBehavior.cpp.o
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/CommonBehavior.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/CommonBehavior.cpp
  src/CommonBehavior.h
 src/CMakeFiles/ChocaMem.dir/DifferentialRobot.cpp.o
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/DifferentialRobot.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/DifferentialRobot.cpp
  src/DifferentialRobot.h
  src/GenericBase.h
 src/CMakeFiles/ChocaMem.dir/GenericBase.cpp.o
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/GenericBase.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/GenericBase.cpp
  src/GenericBase.h
 src/CMakeFiles/ChocaMem.dir/Laser.cpp.o
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/Laser.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/Laser.cpp
  src/GenericBase.h
  src/Laser.h
 src/CMakeFiles/ChocaMem.dir/RCISMousePicker.cpp.o
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/RCISMousePicker.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/RCISMousePicker.cpp
  src/RCISMousePicker.h
 src/CMakeFiles/ChocaMem.dir/commonbehaviorI.cpp.o
  /home/salabeta/anaconda3/include/qt/QtCore/QEvent
@@ -987,10 +987,10 @@ src/CMakeFiles/ChocaMem.dir/commonbehaviorI.cpp.o
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwidgetaction.h
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwizard.h
  /home/salabeta/robocomp/classes/qlog/qlog.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/commonbehaviorI.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/commonbehaviorI.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericmonitor.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/commonbehaviorI.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/commonbehaviorI.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericmonitor.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericworker.h
  src/ChocaMem_autogen/include/ui_mainUI.h
  src/CommonBehavior.h
  src/DifferentialRobot.h
@@ -1456,10 +1456,10 @@ src/CMakeFiles/ChocaMem.dir/genericmonitor.cpp.o
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwidgetaction.h
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwizard.h
  /home/salabeta/robocomp/classes/qlog/qlog.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/config.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericmonitor.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericmonitor.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/config.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericmonitor.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericmonitor.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericworker.h
  src/ChocaMem_autogen/include/ui_mainUI.h
  src/CommonBehavior.h
  src/DifferentialRobot.h
@@ -1924,9 +1924,9 @@ src/CMakeFiles/ChocaMem.dir/genericworker.cpp.o
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwidgetaction.h
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwizard.h
  /home/salabeta/robocomp/classes/qlog/qlog.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/config.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericworker.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/config.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericworker.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericworker.h
  src/ChocaMem_autogen/include/ui_mainUI.h
  src/CommonBehavior.h
  src/DifferentialRobot.h
@@ -2841,14 +2841,14 @@ src/CMakeFiles/ChocaMem.dir/main.cpp.o
  /home/salabeta/robocomp/classes/qlog/qlog.h
  /home/salabeta/robocomp/classes/rapplication/rapplication.h
  /home/salabeta/robocomp/classes/sigwatch/sigwatch.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/commonbehaviorI.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/config.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericmonitor.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericworker.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/grid.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/main.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/specificmonitor.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/specificworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/commonbehaviorI.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/config.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericmonitor.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/grid.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/main.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/specificmonitor.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/specificworker.h
  /opt/robocomp/include/innermodel/innermodel.h
  /opt/robocomp/include/innermodel/innermodelcamera.h
  /opt/robocomp/include/innermodel/innermodelconfig.h
@@ -3345,9 +3345,9 @@ src/CMakeFiles/ChocaMem.dir/rcismousepickerI.cpp.o
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwidgetaction.h
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwizard.h
  /home/salabeta/robocomp/classes/qlog/qlog.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericworker.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/rcismousepickerI.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/rcismousepickerI.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/rcismousepickerI.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/rcismousepickerI.h
  src/ChocaMem_autogen/include/ui_mainUI.h
  src/CommonBehavior.h
  src/DifferentialRobot.h
@@ -3813,11 +3813,11 @@ src/CMakeFiles/ChocaMem.dir/specificmonitor.cpp.o
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwidgetaction.h
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwizard.h
  /home/salabeta/robocomp/classes/qlog/qlog.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/config.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericmonitor.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/genericworker.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/specificmonitor.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/specificmonitor.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/config.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericmonitor.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/genericworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/specificmonitor.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/specificmonitor.h
  src/ChocaMem_autogen/include/ui_mainUI.h
  src/CommonBehavior.h
  src/DifferentialRobot.h
@@ -4287,9 +4287,9 @@ src/CMakeFiles/ChocaMem.dir/specificworker.cpp.o
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwidgetaction.h
  /home/salabeta/anaconda3/include/qt/QtWidgets/qwizard.h
  /home/salabeta/robocomp/classes/qlog/qlog.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/grid.h
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/specificworker.cpp
- /home/salabeta/robocomp/components/beta-robotica-class/chocamem/src/specificworker.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/grid.h
+ /home/salabeta/robocomp/components/componentes/chocamem/src/specificworker.cpp
+ /home/salabeta/robocomp/components/componentes/chocamem/src/specificworker.h
  /opt/robocomp/include/innermodel/innermodel.h
  /opt/robocomp/include/innermodel/innermodelcamera.h
  /opt/robocomp/include/innermodel/innermodelconfig.h

@@ -24,7 +24,8 @@ float rot = 0.6;			 // rads per second
 enum Estados
 {
 	base,
-	obstaculo
+	obstaculo,
+	espiral
 };
 
 Estados estado = base;
@@ -90,23 +91,27 @@ void SpecificWorker::initialize(int period)
 void SpecificWorker::compute()
 {
 	readRobotState();
-	//estado = obstaculo;
-	std::cout <<   estado << std::endl;
 
-	/// AQUI LA MAQUINA DE ESTADOS
+	//MAQUINA DE ESTADOS
 	switch (estado)
 	{
+
+	//CASO BASE: VA HACIA DELANTE CON UNA VELOCIDAD DE 200
 	case base:
 		try
 		{
 			RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-			differentialrobot_proxy->setSpeedBase(200, 0);
-			std::cout << "Estoy en base" << std::endl;
+
+			//differentialrobot_proxy->getBaseState(bState);
+			//auto [valid, cell] = grid.getCell(bState.x, bState.z);
 			if (ldata.front().dist < threshold)
 			{
-				std::cout << "Estoy en en if" << std::endl;
-				estado = obstaculo;				
+				estado = obstaculo;
+			}
+			else
+			{
+				differentialrobot_proxy->setSpeedBase(50, 0);
 			}
 		}
 		catch (const Ice::Exception &ex)
@@ -114,22 +119,32 @@ void SpecificWorker::compute()
 			std::cout << ex << std::endl;
 		}
 		break;
+
+	//CASO OBSTACULO: SE PARA Y DESPUES GIRA
 	case obstaculo:
 		try
 		{
 			RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
 			differentialrobot_proxy->setSpeedBase(0, 0);
-			std::cout << "Estoy en obstaculo" << std::endl;
-			
+
+			differentialrobot_proxy->setSpeedBase(5, rot);
+			usleep(rand() % (1500000 - 100000 + 1) + 100000); // random wait between 1.5s and 0.1sec
+			if (ldata.front().dist > threshold)
+			{
+				estado = base;
+			}
 		}
 		catch (const Ice::Exception &ex)
 		{
 			std::cout << ex << std::endl;
 		}
 		break;
-	default:
-			std::cout<<"default\n";
+
+	//CASO ESPIRAL:
+	case espiral:
+
+		break;
 	}
 }
 
@@ -138,6 +153,16 @@ void SpecificWorker::readRobotState()
 	try
 	{
 		differentialrobot_proxy->getBaseState(bState);
+		auto [valid, cell] = grid.getCell(bState.x, bState.z);
+		if (valid)
+		{
+			std::cout << cell.visited << std::endl;
+			if (cell.visited){
+			 	std::cout << "***********************************" << std::endl;
+		    }
+			cell.visited = true;
+			cell.rect->setBrush(Qt::green);
+		}
 		innerModel->updateTransformValues("base", bState.x, 0, bState.z, 0, bState.alpha, 0);
 		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 
