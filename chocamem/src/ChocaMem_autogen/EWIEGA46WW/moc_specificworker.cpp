@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SpecificWorker_t {
-    QByteArrayData data[5];
-    char stringdata0[42];
+    QByteArrayData data[8];
+    char stringdata0[77];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,11 +35,14 @@ QT_MOC_LITERAL(0, 0, 14), // "SpecificWorker"
 QT_MOC_LITERAL(1, 15, 7), // "compute"
 QT_MOC_LITERAL(2, 23, 0), // ""
 QT_MOC_LITERAL(3, 24, 10), // "initialize"
-QT_MOC_LITERAL(4, 35, 6) // "period"
+QT_MOC_LITERAL(4, 35, 6), // "period"
+QT_MOC_LITERAL(5, 42, 8), // "casoBase"
+QT_MOC_LITERAL(6, 51, 13), // "casoObstaculo"
+QT_MOC_LITERAL(7, 65, 11) // "casoEspiral"
 
     },
     "SpecificWorker\0compute\0\0initialize\0"
-    "period"
+    "period\0casoBase\0casoObstaculo\0casoEspiral"
 };
 #undef QT_MOC_LITERAL
 
@@ -49,7 +52,7 @@ static const uint qt_meta_data_SpecificWorker[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -57,12 +60,18 @@ static const uint qt_meta_data_SpecificWorker[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   24,    2, 0x0a /* Public */,
-       3,    1,   25,    2, 0x0a /* Public */,
+       1,    0,   39,    2, 0x0a /* Public */,
+       3,    1,   40,    2, 0x0a /* Public */,
+       5,    0,   43,    2, 0x0a /* Public */,
+       6,    0,   44,    2, 0x0a /* Public */,
+       7,    0,   45,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -75,6 +84,9 @@ void SpecificWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         switch (_id) {
         case 0: _t->compute(); break;
         case 1: _t->initialize((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 2: _t->casoBase(); break;
+        case 3: _t->casoObstaculo(); break;
+        case 4: _t->casoEspiral(); break;
         default: ;
         }
     }
@@ -105,13 +117,13 @@ int SpecificWorker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 5)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
+        _id -= 5;
     }
     return _id;
 }

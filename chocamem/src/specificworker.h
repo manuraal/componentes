@@ -61,6 +61,9 @@ public:
 public slots:
 	void compute();
 	void initialize(int period);
+	void casoBase();
+	void casoObstaculo();
+	void casoEspiral();
 
 private:
 	std::shared_ptr<InnerModel> innerModel;

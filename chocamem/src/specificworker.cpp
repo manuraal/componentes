@@ -96,55 +96,90 @@ void SpecificWorker::compute()
 	switch (estado)
 	{
 
-	//CASO BASE: VA HACIA DELANTE CON UNA VELOCIDAD DE 200
+	//CASO BASE: VA HACIA DELANTE CON UNA VELOCIDAD DETERMINADA
 	case base:
-		try
-		{
-			RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
-			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-
-			//differentialrobot_proxy->getBaseState(bState);
-			//auto [valid, cell] = grid.getCell(bState.x, bState.z);
-			if (ldata.front().dist < threshold)
-			{
-				estado = obstaculo;
-			}
-			else
-			{
-				differentialrobot_proxy->setSpeedBase(50, 0);
-			}
-		}
-		catch (const Ice::Exception &ex)
-		{
-			std::cout << ex << std::endl;
-		}
+		casoBase();
 		break;
 
 	//CASO OBSTACULO: SE PARA Y DESPUES GIRA
 	case obstaculo:
-		try
-		{
-			RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
-			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-			differentialrobot_proxy->setSpeedBase(0, 0);
-
-			differentialrobot_proxy->setSpeedBase(5, rot);
-			usleep(rand() % (1500000 - 100000 + 1) + 100000); // random wait between 1.5s and 0.1sec
-			if (ldata.front().dist > threshold)
-			{
-				estado = base;
-			}
-		}
-		catch (const Ice::Exception &ex)
-		{
-			std::cout << ex << std::endl;
-		}
+		casoObstaculo();
 		break;
 
 	//CASO ESPIRAL:
 	case espiral:
-
+		casoEspiral();
 		break;
+	}
+}
+
+void SpecificWorker::casoBase()
+{
+	try
+	{
+		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+		std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+		if (ldata.front().dist < threshold)
+		{
+			estado = obstaculo;
+		}
+		else
+		{
+			differentialrobot_proxy->setSpeedBase(500, 0);
+		}
+	}
+	catch (const Ice::Exception &ex)
+	{
+		std::cout << ex << std::endl;
+	}
+}
+
+void SpecificWorker::casoObstaculo()
+{
+	try
+	{
+		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+		std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+		differentialrobot_proxy->setSpeedBase(0, M_PI_2);
+		usleep(500000);
+		if (ldata.front().dist > threshold)
+		{
+			estado = espiral;
+		}
+	}
+	catch (const Ice::Exception &ex)
+	{
+		std::cout << ex << std::endl;
+	}
+}
+
+void SpecificWorker::casoEspiral()
+{
+
+	try
+	{
+		if (rot > 0)
+			rot = rot - 0.01;
+		else {
+			rot = 0.6;
+		}
+		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+		std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+		if (ldata.front().dist < threshold)
+		{
+			rot = 0.6;
+			estado = obstaculo;
+		}
+		else
+		{
+			differentialrobot_proxy->setSpeedBase(300, rot);
+			differentialrobot_proxy->setRotation(M_PI_2);
+			usleep(500000);
+		}
+	}
+	catch (const Ice::Exception &ex)
+	{
+		std::cout << ex << std::endl;
 	}
 }
 
@@ -156,13 +191,14 @@ void SpecificWorker::readRobotState()
 		auto [valid, cell] = grid.getCell(bState.x, bState.z);
 		if (valid)
 		{
-			std::cout << cell.visited << std::endl;
-			if (cell.visited){
-			 	std::cout << "***********************************" << std::endl;
-		    }
+			// if (cell.visited)
+			// {
+			// 	std::cout << "CELDA YA VISITADA" << std::endl;
+			// }
 			cell.visited = true;
 			cell.rect->setBrush(Qt::green);
 		}
+
 		innerModel->updateTransformValues("base", bState.x, 0, bState.z, 0, bState.alpha, 0);
 		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 
