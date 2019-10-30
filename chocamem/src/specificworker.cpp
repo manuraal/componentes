@@ -27,9 +27,8 @@ enum Estados
 	obstaculo,
 	espiral
 };
-bool derecha = false;
-bool izquierda = false;
-Estados estado = espiral;
+
+Estados estado = base;
 /**
 * \brief Default constructor
 */
@@ -97,12 +96,12 @@ void SpecificWorker::compute()
 	switch (estado)
 	{
 
-	//CASO BASE:
+	//CASO BASE: VA HACIA DELANTE CON UNA VELOCIDAD DETERMINADA
 	case base:
 		casoBase();
 		break;
 
-	//CASO OBSTACULO:
+	//CASO OBSTACULO: SE PARA Y DESPUES GIRA
 	case obstaculo:
 		casoObstaculo();
 		break;
@@ -114,16 +113,10 @@ void SpecificWorker::compute()
 	}
 }
 
-/**
- * Caso el cual hace que el robot 
- * se mueva en línea recta hasta
- * que encuentre un obstáculo
- **/
 void SpecificWorker::casoBase()
 {
 	try
 	{
-		rot = 0.6;
 		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 		std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
 		if (ldata.front().dist < threshold)
@@ -141,57 +134,18 @@ void SpecificWorker::casoBase()
 	}
 }
 
-/**
- * Caso que va a realizarse cuando 
- * la distancia del robor al obstáculo 
- * sea menor que el umbral establecido (threshold)  
- **/
 void SpecificWorker::casoObstaculo()
 {
 	try
 	{
-		rot = 0.6;
 		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
-		//std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-		for (int i = 46; i < 99; i++)
+		std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+		differentialrobot_proxy->setSpeedBase(0, M_PI_2);
+		usleep(500000);
+		if (ldata.front().dist > threshold)
 		{
-			if (ldata[i].dist < threshold)
-			{
-				izquierda = true;
-			}
-		}
-		if (izquierda)
-		{
-			differentialrobot_proxy->setSpeedBase(0, 0.3);
-			usleep(500000);
-			izquierda = false;
 			estado = espiral;
 		}
-		for (int i = 0; i < 45; i++)
-		{
-			if (ldata[i].dist < threshold)
-			{
-				derecha = true;
-			}
-		}
-
-		if (derecha)
-		{
-			differentialrobot_proxy->setSpeedBase(0, !0.3);
-			usleep(500000);
-			derecha = false;
-			estado = espiral;
-		}
-		//else
-		// {
-		// 	differentialrobot_proxy->setSpeedBase(0, 0.3);
-		// 	estado = base;
-		// }
-
-		// if (ldata.front().dist > threshold)
-		// {
-
-		// }
 	}
 	catch (const Ice::Exception &ex)
 	{
@@ -199,33 +153,27 @@ void SpecificWorker::casoObstaculo()
 	}
 }
 
-/**
- * Caso que va a ejecutarse 
- * cuando el robot encuentre
- * un obstáculo
- **/
 void SpecificWorker::casoEspiral()
 {
 
 	try
 	{
 		if (rot > 0)
-			rot = rot - 0.05;
-		else
-		{
-			//rot = 0.6;
-			estado = base;
+			rot = rot - 0.01;
+		else {
+			rot = 0.6;
 		}
 		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 		std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
 		if (ldata.front().dist < threshold)
 		{
-			// rot = 0.6;
+			rot = 0.6;
 			estado = obstaculo;
 		}
 		else
 		{
 			differentialrobot_proxy->setSpeedBase(300, rot);
+			differentialrobot_proxy->setRotation(M_PI_2);
 			usleep(500000);
 		}
 	}
@@ -241,7 +189,6 @@ void SpecificWorker::readRobotState()
 	{
 		differentialrobot_proxy->getBaseState(bState);
 		auto [valid, cell] = grid.getCell(bState.x, bState.z);
-		//Compruba que la celda que pisa el robot es válida y la marca como visitada.
 		if (valid)
 		{
 			// if (cell.visited)
