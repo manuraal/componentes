@@ -22,17 +22,17 @@
        @author authorname
 */
 
-
-
 #ifndef SPECIFICWORKER_H
 #define SPECIFICWORKER_H
 
+#include <iostream>
+#include <fstream>
 #include <genericworker.h>
 #include <innermodel/innermodel.h>
 
 class SpecificWorker : public GenericWorker
 {
-Q_OBJECT
+	Q_OBJECT
 public:
 	SpecificWorker(TuplePrx tprx);
 	~SpecificWorker();
@@ -40,18 +40,29 @@ public:
 
 	void RCISMousePicker_setPick(Pick myPick);
 
+	struct Target
+	{
+		bool picked;
+		float x;
+		float z;
+	};
+
+	Target target;
+
 public slots:
 	void compute();
 	void initialize(int period);
-//Specification slot methods State Machine
+	void gotoTarget();
+	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();
 	void sm_finalize();
 
-//--------------------
+	//--------------------
 private:
 	std::shared_ptr<InnerModel> innerModel;
-
+	RoboCompGenericBase::TBaseState bState;
+	RoboCompLaser::TLaserData ldata;
 };
 
 #endif
