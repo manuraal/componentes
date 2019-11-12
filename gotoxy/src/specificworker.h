@@ -52,7 +52,9 @@ public:
 public slots:
 	void compute();
 	void initialize(int period);
-	void gotoTarget();
+	void rotToTarget();
+	void goToTarget();
+	void obstaculo();
 	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();
