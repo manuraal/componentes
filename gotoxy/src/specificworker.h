@@ -55,6 +55,7 @@ public slots:
 	void rotToTarget();
 	void goToTarget();
 	void obstaculo();
+	void surroundLeft();
 	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();

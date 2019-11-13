@@ -23,11 +23,13 @@ enum Estados
 	encontrado,
 	rotTo,
 	goTo,
-	obstacle
+	obstacle,
+	rodear
 };
 
 Estados estado = encontrado;
-float rot = 0.6;
+float rot = 0.4;
+int threshold = 200;
 
 /**
 * \brief Default constructor
@@ -93,6 +95,9 @@ void SpecificWorker::compute()
 	case obstacle:
 		obstaculo();
 		break;
+	case rodear:
+		surroundLeft();
+		break;
 	}
 }
 
@@ -134,10 +139,10 @@ void SpecificWorker::goToTarget()
 		estado = encontrado;
 		return;
 	}
-	differentialrobot_proxy->setSpeedBase(300, 0);
+	differentialrobot_proxy->setSpeedBase(200, 0);
 
 	//Si encontramos un obstáculo
-	if (ldata.front().dist < 200)
+	if (ldata.front().dist < threshold)
 	{
 		estado = obstacle;
 	}
@@ -147,7 +152,6 @@ void SpecificWorker::obstaculo()
 {
 	try
 	{
-		float giro = 0.6;
 		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 		//std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
 		int giroIzq = 0;
@@ -165,21 +169,48 @@ void SpecificWorker::obstaculo()
 		differentialrobot_proxy->setSpeedBase(0, 0);
 		if (giroIzq < giroDer)
 		{
-
-			differentialrobot_proxy->setSpeedBase(0, -giro);
+			differentialrobot_proxy->setSpeedBase(0, -rot);
+			ldata = laser_proxy->getLaserData();
+			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+			if (ldata.front().dist >= threshold)
+			{
+				estado = rodear;
+			}
+			else
+			{
+				differentialrobot_proxy->setSpeedBase(0, -rot);
+				estado = obstacle;
+			}
 		}
 		else
 		{
-			differentialrobot_proxy->setSpeedBase(0, giro);
+			differentialrobot_proxy->setSpeedBase(100, rot);
 		}
+	}
+	catch (const Ice::Exception &ex)
+	{
+		std::cout << ex << std::endl;
+	}
+}
 
-		ldata = laser_proxy->getLaserData();
-		std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-		//si estamos lo suficientemente lejos del obstaculo
-		if (ldata.front().dist >= 200)
+void SpecificWorker::surroundLeft()
+{
+	try
+	{
+		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
+		if ((*vector).dist < threshold + 190)
 		{
-			differentialrobot_proxy->setSpeedBase(300, 0);
+			std::cout << "Giro izquierda" << std::endl;
+			differentialrobot_proxy->setSpeedBase(100, -rot);
 		}
+		else if ((*vector).dist > threshold + 190)
+		{
+			std::cout << "Giro derecha" << std::endl;
+			differentialrobot_proxy->setSpeedBase(100, rot);
+		}
+		else
+			differentialrobot_proxy->setSpeedBase(100, 0);
 	}
 	catch (const Ice::Exception &ex)
 	{
