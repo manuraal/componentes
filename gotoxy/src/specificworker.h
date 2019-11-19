@@ -56,6 +56,8 @@ public slots:
 	void goToTarget();
 	void obstaculo();
 	void surroundLeft();
+	void surroundRigth();
+	bool goToPoint();
 	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();
