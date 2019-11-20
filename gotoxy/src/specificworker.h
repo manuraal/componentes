@@ -29,6 +29,8 @@
 #include <fstream>
 #include <genericworker.h>
 #include <innermodel/innermodel.h>
+#include <QPolygon>
+#include <Qt>
 
 class SpecificWorker : public GenericWorker
 {
@@ -55,9 +57,9 @@ public slots:
 	void rotToTarget();
 	void goToTarget();
 	void obstaculo();
-	void surroundLeft();
-	void surroundRigth();
-	bool goToPoint();
+	void surround();
+	void goToPoint();
+	bool Visible();
 	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();

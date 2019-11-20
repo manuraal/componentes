@@ -24,14 +24,14 @@ enum Estados
 	rotTo,
 	goTo,
 	obstacle,
-	rodearIzq,
-	rodearDer,
+	rodear,
 	irAlPunto
 };
 
 Estados estado = encontrado;
 float rot = 0.4;
 int threshold = 200;
+int lado = 0;
 
 /**
 * \brief Default constructor
@@ -85,6 +85,7 @@ void SpecificWorker::compute()
 	switch (estado)
 	{
 	case encontrado:
+
 		if (target.picked)
 			estado = rotTo;
 		break;
@@ -97,11 +98,8 @@ void SpecificWorker::compute()
 	case obstacle:
 		obstaculo();
 		break;
-	case rodearIzq:
-		surroundLeft();
-		break;
-	case rodearDer:
-		surroundRigth();
+	case rodear:
+		surround();
 		break;
 	case irAlPunto:
 		goToPoint();
@@ -160,51 +158,54 @@ void SpecificWorker::obstaculo()
 {
 	try
 	{
-		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+		//RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 		//std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-		int giroIzq = 0;
-		for (int i = 0; i < 49; i++)
-		{
-			giroIzq = giroIzq + ldata[i].dist;
-		}
+		// int giroIzq = 0;
+		// for (int i = 0; i < 49; i++)
+		// {
+		// 	giroIzq = giroIzq + ldata[i].dist;
+		// }
 
-		int giroDer = 0;
-		for (int i = 50; i < 100; i++)
-		{
-			giroDer = giroDer + ldata[i].dist;
-		}
+		// int giroDer = 0;
+		// for (int i = 50; i < 100; i++)
+		// {
+		// 	giroDer = giroDer + ldata[i].dist;
+		// }
 
 		differentialrobot_proxy->setSpeedBase(0, 0);
-		if (giroIzq < giroDer) //Hacia la izq
-		{
-			differentialrobot_proxy->setSpeedBase(0, -rot);
-			ldata = laser_proxy->getLaserData();
-			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-			if (ldata.front().dist >= threshold)
-			{
-				estado = rodearIzq;
-			}
-			else
-			{
-				differentialrobot_proxy->setSpeedBase(0, -rot);
-				estado = obstacle;
-			}
-		}
-		else
-		{
+		// if (giroIzq < giroDer) //Hacia la izq
+		// {
+		// 	differentialrobot_proxy->setSpeedBase(0, -rot);
+		// 	ldata = laser_proxy->getLaserData();
+		// 	std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+		// 	if (ldata.front().dist >= threshold)
+		// 	{
+		// 		std::cout << "ENTRO EN EL IF PARA RODEAR IZQ" << std::endl;
+		// 		estado = rodearIzq;
+		// 	}
+		// 	else
+		// 	{
+		// 		std::cout << "ENTRO EN EL ELSE PARA OBASTACULO" << std::endl;
+		// 		differentialrobot_proxy->setSpeedBase(0, -rot);
+		// 		estado = obstacle;
+		// 	}
+		// }
+		// else
+		// {
 			differentialrobot_proxy->setSpeedBase(0, rot);
 			ldata = laser_proxy->getLaserData();
 			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
 			if (ldata.front().dist >= threshold)
 			{
-				estado = rodearDer;
+				std::cout << "ENTRO EN EL IF PARA RODEAR DER" << std::endl;
+				estado = rodear;
 			}
-			else
-			{
-				differentialrobot_proxy->setSpeedBase(0, rot);
-				estado = obstacle;
-			}
-		}
+			// else
+			// {
+			// 	differentialrobot_proxy->setSpeedBase(0, rot);
+			// 	estado = obstacle;
+			// }
+		//}
 	}
 	catch (const Ice::Exception &ex)
 	{
@@ -212,22 +213,56 @@ void SpecificWorker::obstaculo()
 	}
 }
 
-void SpecificWorker::surroundLeft()
+// void SpecificWorker::surroundLeft()
+// {
+// 	try
+// 	{
+// 		lado = 1;
+// 		if (Visible(lado))
+// 		{
+// 			std::cout << "DEBERIA IR AL PUNTO" << std::endl;
+// 			estado = irAlPunto;
+// 		}
+// 		//RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+// 		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
+// 		if ((*vector).dist <= threshold + 190)
+// 		{
+// 			std::cout << "DENTRO DEL GIRAR IZQ, GIRO IZQ" << std::endl;
+// 			differentialrobot_proxy->setSpeedBase(100, -rot);
+// 		}
+// 		else if ((*vector).dist > threshold + 190)
+// 		{
+// 			std::cout << "DENTRO DEL GIRAR IZQ, GIRO A LA DERECHA" << std::endl;
+// 			differentialrobot_proxy->setSpeedBase(100, rot);
+// 		}
+// 	}
+// 	catch (const Ice::Exception &ex)
+// 	{
+// 		std::cout << ex << std::endl;
+// 	}
+// }
+
+void SpecificWorker::surround()
 {
 	try
 	{
-		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
-		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
-		if ((*vector).dist < threshold + 190)
+		if (Visible())
 		{
-			differentialrobot_proxy->setSpeedBase(100, -rot);
+			std::cout << "DEBERIA IR AL PUNTO" << std::endl;
+			estado = irAlPunto;
+		}
+		//RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
+		if ((*vector).dist <= threshold + 190)
+		{
+			std::cout << "DENTRO DEL GIRAR DERECHA, GIRO DERECHA" << std::endl;
+			differentialrobot_proxy->setSpeedBase(100, rot);
 		}
 		else if ((*vector).dist > threshold + 190)
 		{
-			differentialrobot_proxy->setSpeedBase(100, rot);
+			std::cout << "DENTRO DEL GIRAR DERECHA, GIRO IZQUIERDA" << std::endl;
+			differentialrobot_proxy->setSpeedBase(100, -rot);
 		}
-		else
-			differentialrobot_proxy->setSpeedBase(100, 0);
 	}
 	catch (const Ice::Exception &ex)
 	{
@@ -235,41 +270,26 @@ void SpecificWorker::surroundLeft()
 	}
 }
 
-void SpecificWorker::surroundRigth()
-{
-	try
-	{
-		RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
-		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
-		if ((*vector).dist < threshold + 190)
-		{
-			differentialrobot_proxy->setSpeedBase(100, rot);
-		}
-		else if ((*vector).dist > threshold + 190)
-		{
-			differentialrobot_proxy->setSpeedBase(100, -rot);
-		}
-		else
-			differentialrobot_proxy->setSpeedBase(100, 0);
-	}
-	catch (const Ice::Exception &ex)
-	{
-		std::cout << ex << std::endl;
-	}
-}
-
-bool SpecificWorker::goToPoint()
+bool SpecificWorker::Visible() //Lado = 0 Derecha, Lado = 1 izquierda
 {
 	QPolygonF polygon;
-	auto l = innerModel->getNode<InnerModelLaser>(std::string("laser"));
-	RoboCompLaser::TLaserData lasercopy = laser_proxy->getLaserData();
-	for (const auto &l : (lasercopy.begin(), lasercopy.end() - 50))
-	{
-		QVec lr = innerModel->laserTo("world", "laser", l.dist, l.angle);
-		polygon << QPointF(lr.x(), lr.z());
-	}
+	auto laser = innerModel->getNode<InnerModelLaser>(std::string("laser"));
+
+		for (int i = 1; i < 80; i++)
+		{
+			QVec lr = laser->laserTo(std::string("world"), ldata[i].dist, ldata[i].angle);
+			polygon << QPointF(lr.x(), lr.z());
+		}
+	
+
 	QVec t = QVec::vec3(target.x, 0, target.z);
-	return polygon.containsPoint(QPointF(t.x, t.z), Qt::WindingFill);
+	std::cout << polygon.containsPoint(QPointF(t.x(), t.z()), Qt::WindingFill) << std::endl;
+	return polygon.containsPoint(QPointF(t.x(), t.z()), Qt::WindingFill);
+}
+
+void SpecificWorker::goToPoint()
+{
+	estado = rotTo;
 }
 
 void SpecificWorker::sm_compute()

@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SpecificWorker_t {
     QByteArrayData data[14];
-    char stringdata0[149];
+    char stringdata0[139];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,18 +39,18 @@ QT_MOC_LITERAL(4, 35, 6), // "period"
 QT_MOC_LITERAL(5, 42, 11), // "rotToTarget"
 QT_MOC_LITERAL(6, 54, 10), // "goToTarget"
 QT_MOC_LITERAL(7, 65, 9), // "obstaculo"
-QT_MOC_LITERAL(8, 75, 12), // "surroundLeft"
-QT_MOC_LITERAL(9, 88, 13), // "surroundRigth"
-QT_MOC_LITERAL(10, 102, 9), // "goToPoint"
-QT_MOC_LITERAL(11, 112, 10), // "sm_compute"
-QT_MOC_LITERAL(12, 123, 13), // "sm_initialize"
-QT_MOC_LITERAL(13, 137, 11) // "sm_finalize"
+QT_MOC_LITERAL(8, 75, 8), // "surround"
+QT_MOC_LITERAL(9, 84, 9), // "goToPoint"
+QT_MOC_LITERAL(10, 94, 7), // "Visible"
+QT_MOC_LITERAL(11, 102, 10), // "sm_compute"
+QT_MOC_LITERAL(12, 113, 13), // "sm_initialize"
+QT_MOC_LITERAL(13, 127, 11) // "sm_finalize"
 
     },
     "SpecificWorker\0compute\0\0initialize\0"
     "period\0rotToTarget\0goToTarget\0obstaculo\0"
-    "surroundLeft\0surroundRigth\0goToPoint\0"
-    "sm_compute\0sm_initialize\0sm_finalize"
+    "surround\0goToPoint\0Visible\0sm_compute\0"
+    "sm_initialize\0sm_finalize"
 };
 #undef QT_MOC_LITERAL
 
@@ -107,9 +107,9 @@ void SpecificWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 2: _t->rotToTarget(); break;
         case 3: _t->goToTarget(); break;
         case 4: _t->obstaculo(); break;
-        case 5: _t->surroundLeft(); break;
-        case 6: _t->surroundRigth(); break;
-        case 7: { bool _r = _t->goToPoint();
+        case 5: _t->surround(); break;
+        case 6: _t->goToPoint(); break;
+        case 7: { bool _r = _t->Visible();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         case 8: _t->sm_compute(); break;
         case 9: _t->sm_initialize(); break;

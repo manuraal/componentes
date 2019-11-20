@@ -1433,6 +1433,7 @@ src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QString
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QStringList
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QVariant
+src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/Qt
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QtCore
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QtCoreDepends
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/qabstractanimation.h
@@ -1620,6 +1621,7 @@ src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QOpenGLContext
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPaintDevice
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPaintDeviceWindow
+src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPolygon
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QSurfaceFormat
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QTransform
 src/CMakeFiles/gotoxy.dir/gotoxy_autogen/mocs_compilation.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QVector3D
@@ -2381,6 +2383,7 @@ src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QString
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QStringList
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QVariant
+src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/Qt
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QtCore
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QtCoreDepends
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/qabstractanimation.h
@@ -2568,6 +2571,7 @@ src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QOpenGLContext
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPaintDevice
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPaintDeviceWindow
+src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPolygon
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QSurfaceFormat
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QTransform
 src/CMakeFiles/gotoxy.dir/main.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QVector3D
@@ -3819,6 +3823,7 @@ src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QString
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QStringList
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QVariant
+src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/Qt
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QtCore
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/QtCoreDepends
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtCore/qabstractanimation.h
@@ -4006,6 +4011,7 @@ src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QOpenGLContext
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPaintDevice
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPaintDeviceWindow
+src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QPolygon
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QSurfaceFormat
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QTransform
 src/CMakeFiles/gotoxy.dir/specificworker.cpp.o: /home/salabeta/anaconda3/include/qt/QtGui/QVector3D
