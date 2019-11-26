@@ -20,15 +20,15 @@
 
 enum Estados
 {
-	encontrado,
+	located,
 	rotTo,
 	goTo,
 	obstacle,
-	rodear,
-	irAlPunto
+	surround,
+	goToPoint
 };
 
-Estados estado = encontrado;
+Estados estado = located;
 float rot = 0.4;
 int threshold = 200;
 int lado = 0;
@@ -84,8 +84,7 @@ void SpecificWorker::compute()
 	innerModel->updateTransformValues("base", bState.x, 0, bState.z, 0, bState.alpha, 0);
 	switch (estado)
 	{
-	case encontrado:
-
+	case located:
 		if (target.picked)
 			estado = rotTo;
 		break;
@@ -98,11 +97,11 @@ void SpecificWorker::compute()
 	case obstacle:
 		obstaculo();
 		break;
-	case rodear:
-		surround();
+	case surround:
+		rodear();
 		break;
-	case irAlPunto:
-		goToPoint();
+	case goToPoint:
+		irAlPunto();
 		break;
 	}
 }
@@ -115,7 +114,7 @@ void SpecificWorker::rotToTarget()
 
 	if (dist < 100)
 	{
-		estado = encontrado;
+		estado = located;
 		target.picked = true;
 		return;
 	}
@@ -142,7 +141,7 @@ void SpecificWorker::goToTarget()
 	{
 		differentialrobot_proxy->setSpeedBase(0, 0);
 		target.picked = false;
-		estado = encontrado;
+		estado = located;
 		return;
 	}
 	differentialrobot_proxy->setSpeedBase(200, 0);
@@ -198,7 +197,7 @@ void SpecificWorker::obstaculo()
 			if (ldata.front().dist >= threshold)
 			{
 				std::cout << "ENTRO EN EL IF PARA RODEAR DER" << std::endl;
-				estado = rodear;
+				estado = surround;
 			}
 			// else
 			// {
@@ -242,14 +241,14 @@ void SpecificWorker::obstaculo()
 // 	}
 // }
 
-void SpecificWorker::surround()
+void SpecificWorker::rodear()
 {
 	try
 	{
 		if (Visible())
 		{
 			std::cout << "DEBERIA IR AL PUNTO" << std::endl;
-			estado = irAlPunto;
+			estado = goToPoint;
 		}
 		//RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
@@ -270,7 +269,7 @@ void SpecificWorker::surround()
 	}
 }
 
-bool SpecificWorker::Visible() //Lado = 0 Derecha, Lado = 1 izquierda
+bool SpecificWorker::Visible()
 {
 	QPolygonF polygon;
 	auto laser = innerModel->getNode<InnerModelLaser>(std::string("laser"));
@@ -287,10 +286,27 @@ bool SpecificWorker::Visible() //Lado = 0 Derecha, Lado = 1 izquierda
 	return polygon.containsPoint(QPointF(t.x(), t.z()), Qt::WindingFill);
 }
 
-void SpecificWorker::goToPoint()
+void SpecificWorker::irAlPunto()
 {
 	estado = rotTo;
 }
+
+//ax + by + c = 0
+void SpecificWorker::CalculoRecta(){
+	/**
+	 * y2 - y1       y - y1
+	 * --------  =  --------
+	 * x2 - x1       x - x1
+	 */
+	float num = bState.z - target.z;
+	float den = bState.x - target.x;
+	float a = num;
+	float b = -den;
+	float c = -(num*bState.x) + (den*bState.z); 
+}
+// void SpecificWorker::cutLine(){
+// 	QVec p = innerModel->transform("robot", QVec::vec3(t.x(), 0, t.z()), "world");
+// }
 
 void SpecificWorker::sm_compute()
 {

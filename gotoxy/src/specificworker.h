@@ -57,9 +57,10 @@ public slots:
 	void rotToTarget();
 	void goToTarget();
 	void obstaculo();
-	void surround();
-	void goToPoint();
+	void rodear();
+	void irAlPunto();
 	bool Visible();
+	void cutLine();
 	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();
