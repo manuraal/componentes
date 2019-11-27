@@ -28,10 +28,10 @@ enum Estados
 	goToPoint
 };
 
-Estados estado = located;
-float rot = 0.4;
-int threshold = 200;
-int lado = 0;
+Estados estado = located; //Estado inicial
+float rot = 0.4;		  //Velocidad de rotacion
+int threshold = 200;	  //Limite de mm hasta un obstáculo
+float a, b, c;			  //Coeficientes para la recta
 
 /**
 * \brief Default constructor
@@ -51,8 +51,6 @@ SpecificWorker::~SpecificWorker()
 
 bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 {
-	//   THE FOLLOWING IS JUST AN EXAMPLE
-	// To use innerModelPath parameter you should uncomment specificmonitor.cpp readConfig method content
 	try
 	{
 		RoboCompCommonBehavior::Parameter par = params.at("InnerModelPath");
@@ -63,9 +61,6 @@ bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 	{
 		qFatal("Error reading config params");
 	}
-
-	//defaultMachine.start();
-
 	return true;
 }
 
@@ -86,7 +81,10 @@ void SpecificWorker::compute()
 	{
 	case located:
 		if (target.picked)
+		{
+			CalculoRecta(); //Calculamos la recta solo cuando pinchamos sobre el mundo
 			estado = rotTo;
+		}
 		break;
 	case rotTo:
 		rotToTarget();
@@ -106,11 +104,23 @@ void SpecificWorker::compute()
 	}
 }
 
+/**
+ * Método para girar hacia el target
+ * Primeramente se comprueba si estamos cerca de un obstaculo, si es asi pasamos al estado obstaculo
+ * Despues comprobamos que no estemos en el punto seleccionado, si lo estamos, el robot se para, pasamos al estado located
+ * Por ultimo si no estamos ni cerca de un obstaculo ni en el punto, vamos hacia el punto con el estado goTo
+ **/ 
 void SpecificWorker::rotToTarget()
 {
+	std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
 	QVec rt = innerModel->transform("base", QVec::vec3(target.x, 0, target.z), "world");
 	float dist = rt.norm2();
 	float rot = atan2(rt.x(), rt.z());
+
+	if (ldata.front().dist < threshold)
+	{
+		estado = obstacle;
+	}
 
 	if (dist < 100)
 	{
@@ -131,6 +141,12 @@ void SpecificWorker::rotToTarget()
 	}
 }
 
+/**
+ * Método para it hacia el target seleccionado 
+ * Comprobamos si estamos en el punto, si estamos, vamos al estado located
+ * Si no, si encontramos un obstaculo pasamos al estado obstacle
+ * Si no ocurre ninguna de las dos opciones anteriores simplemente vamos hacia delante
+ **/
 void SpecificWorker::goToTarget()
 {
 	RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
@@ -144,67 +160,29 @@ void SpecificWorker::goToTarget()
 		estado = located;
 		return;
 	}
-	differentialrobot_proxy->setSpeedBase(200, 0);
-
-	//Si encontramos un obstáculo
 	if (ldata.front().dist < threshold)
 	{
 		estado = obstacle;
 	}
+	differentialrobot_proxy->setSpeedBase(200, 0);
 }
 
+/**
+ * Método para no chocar contra un obstáculo y rodearlo
+ * Primeramente nos paramos frente al obstáculo y despues comprobamos la distancia a este,
+ * si la distancia frontal del láser es mayor o igual a nuestro threshold pasamos al estado surround para rodear el obsatáculo
+ **/
 void SpecificWorker::obstaculo()
 {
 	try
 	{
-		//RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
-		//std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-		// int giroIzq = 0;
-		// for (int i = 0; i < 49; i++)
-		// {
-		// 	giroIzq = giroIzq + ldata[i].dist;
-		// }
-
-		// int giroDer = 0;
-		// for (int i = 50; i < 100; i++)
-		// {
-		// 	giroDer = giroDer + ldata[i].dist;
-		// }
-
-		differentialrobot_proxy->setSpeedBase(0, 0);
-		// if (giroIzq < giroDer) //Hacia la izq
-		// {
-		// 	differentialrobot_proxy->setSpeedBase(0, -rot);
-		// 	ldata = laser_proxy->getLaserData();
-		// 	std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-		// 	if (ldata.front().dist >= threshold)
-		// 	{
-		// 		std::cout << "ENTRO EN EL IF PARA RODEAR IZQ" << std::endl;
-		// 		estado = rodearIzq;
-		// 	}
-		// 	else
-		// 	{
-		// 		std::cout << "ENTRO EN EL ELSE PARA OBASTACULO" << std::endl;
-		// 		differentialrobot_proxy->setSpeedBase(0, -rot);
-		// 		estado = obstacle;
-		// 	}
-		// }
-		// else
-		// {
-			differentialrobot_proxy->setSpeedBase(0, rot);
-			ldata = laser_proxy->getLaserData();
-			std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-			if (ldata.front().dist >= threshold)
-			{
-				std::cout << "ENTRO EN EL IF PARA RODEAR DER" << std::endl;
-				estado = surround;
-			}
-			// else
-			// {
-			// 	differentialrobot_proxy->setSpeedBase(0, rot);
-			// 	estado = obstacle;
-			// }
-		//}
+		differentialrobot_proxy->setSpeedBase(0, rot);
+		ldata = laser_proxy->getLaserData();
+		std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
+		if (ldata.front().dist >= threshold)
+		{
+			estado = surround;
+		}
 	}
 	catch (const Ice::Exception &ex)
 	{
@@ -212,56 +190,28 @@ void SpecificWorker::obstaculo()
 	}
 }
 
-// void SpecificWorker::surroundLeft()
-// {
-// 	try
-// 	{
-// 		lado = 1;
-// 		if (Visible(lado))
-// 		{
-// 			std::cout << "DEBERIA IR AL PUNTO" << std::endl;
-// 			estado = irAlPunto;
-// 		}
-// 		//RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
-// 		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
-// 		if ((*vector).dist <= threshold + 190)
-// 		{
-// 			std::cout << "DENTRO DEL GIRAR IZQ, GIRO IZQ" << std::endl;
-// 			differentialrobot_proxy->setSpeedBase(100, -rot);
-// 		}
-// 		else if ((*vector).dist > threshold + 190)
-// 		{
-// 			std::cout << "DENTRO DEL GIRAR IZQ, GIRO A LA DERECHA" << std::endl;
-// 			differentialrobot_proxy->setSpeedBase(100, rot);
-// 		}
-// 	}
-// 	catch (const Ice::Exception &ex)
-// 	{
-// 		std::cout << ex << std::endl;
-// 	}
-// }
-
+/**
+ * 
+ **/
 void SpecificWorker::rodear()
 {
 	try
 	{
-		if (Visible())
-		{
-			std::cout << "DEBERIA IR AL PUNTO" << std::endl;
-			estado = goToPoint;
-		}
-		//RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
 		if ((*vector).dist <= threshold + 190)
 		{
-			std::cout << "DENTRO DEL GIRAR DERECHA, GIRO DERECHA" << std::endl;
 			differentialrobot_proxy->setSpeedBase(100, rot);
 		}
 		else if ((*vector).dist > threshold + 190)
 		{
-			std::cout << "DENTRO DEL GIRAR DERECHA, GIRO IZQUIERDA" << std::endl;
 			differentialrobot_proxy->setSpeedBase(100, -rot);
+			if (Visible())
+			{
+				estado = goToPoint;
+			}
 		}
+
+		comprobarRecta(a, b, c);
 	}
 	catch (const Ice::Exception &ex)
 	{
@@ -274,12 +224,11 @@ bool SpecificWorker::Visible()
 	QPolygonF polygon;
 	auto laser = innerModel->getNode<InnerModelLaser>(std::string("laser"));
 
-		for (int i = 1; i < 80; i++)
-		{
-			QVec lr = laser->laserTo(std::string("world"), ldata[i].dist, ldata[i].angle);
-			polygon << QPointF(lr.x(), lr.z());
-		}
-	
+	for (int i = 1; i < 80; i++)
+	{
+		QVec lr = laser->laserTo(std::string("world"), ldata[i].dist, ldata[i].angle);
+		polygon << QPointF(lr.x(), lr.z());
+	}
 
 	QVec t = QVec::vec3(target.x, 0, target.z);
 	std::cout << polygon.containsPoint(QPointF(t.x(), t.z()), Qt::WindingFill) << std::endl;
@@ -292,7 +241,8 @@ void SpecificWorker::irAlPunto()
 }
 
 //ax + by + c = 0
-void SpecificWorker::CalculoRecta(){
+void SpecificWorker::CalculoRecta()
+{
 	/**
 	 * y2 - y1       y - y1
 	 * --------  =  --------
@@ -300,13 +250,29 @@ void SpecificWorker::CalculoRecta(){
 	 */
 	float num = bState.z - target.z;
 	float den = bState.x - target.x;
-	float a = num;
-	float b = -den;
-	float c = -(num*bState.x) + (den*bState.z); 
+	a = num;
+	b = -den;
+	c = -(num * bState.x) + (den * bState.z);
+	std::cout << a << endl;
+	std::cout << b << endl;
+	std::cout << "C: ";
+	std::cout << c << endl;
+	std::cout << "----------" << endl;
+	//comprobarRecta(a, b, c);
 }
-// void SpecificWorker::cutLine(){
-// 	QVec p = innerModel->transform("robot", QVec::vec3(t.x(), 0, t.z()), "world");
-// }
+
+void SpecificWorker::comprobarRecta(float a, float b, float c)
+{
+	float res = a * bState.x + b * bState.z + c;
+	float norm = res / (sqrt(pow(a, 2) + pow(b, 2) + pow(c, 2)));
+	std::cout << "Recta normalizada: ";
+	std::cout << norm << std::endl;
+	if (norm >= 0 && norm <= 0.05)
+	{
+		std::cout << "Estoy en la recta" << std::endl;
+		estado = rotTo;
+	}
+}
 
 void SpecificWorker::sm_compute()
 {

@@ -31,6 +31,7 @@
 #include <innermodel/innermodel.h>
 #include <QPolygon>
 #include <Qt>
+#include <math.h>
 
 class SpecificWorker : public GenericWorker
 {
@@ -60,7 +61,8 @@ public slots:
 	void rodear();
 	void irAlPunto();
 	bool Visible();
-	void cutLine();
+	void CalculoRecta();
+	void comprobarRecta(float a, float b, float c);
 	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();

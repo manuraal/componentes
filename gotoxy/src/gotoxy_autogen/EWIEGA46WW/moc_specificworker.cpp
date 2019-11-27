@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SpecificWorker_t {
-    QByteArrayData data[15];
-    char stringdata0[145];
+    QByteArrayData data[19];
+    char stringdata0[171];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,16 +42,21 @@ QT_MOC_LITERAL(7, 65, 9), // "obstaculo"
 QT_MOC_LITERAL(8, 75, 6), // "rodear"
 QT_MOC_LITERAL(9, 82, 9), // "irAlPunto"
 QT_MOC_LITERAL(10, 92, 7), // "Visible"
-QT_MOC_LITERAL(11, 100, 7), // "cutLine"
-QT_MOC_LITERAL(12, 108, 10), // "sm_compute"
-QT_MOC_LITERAL(13, 119, 13), // "sm_initialize"
-QT_MOC_LITERAL(14, 133, 11) // "sm_finalize"
+QT_MOC_LITERAL(11, 100, 12), // "CalculoRecta"
+QT_MOC_LITERAL(12, 113, 14), // "comprobarRecta"
+QT_MOC_LITERAL(13, 128, 1), // "a"
+QT_MOC_LITERAL(14, 130, 1), // "b"
+QT_MOC_LITERAL(15, 132, 1), // "c"
+QT_MOC_LITERAL(16, 134, 10), // "sm_compute"
+QT_MOC_LITERAL(17, 145, 13), // "sm_initialize"
+QT_MOC_LITERAL(18, 159, 11) // "sm_finalize"
 
     },
     "SpecificWorker\0compute\0\0initialize\0"
     "period\0rotToTarget\0goToTarget\0obstaculo\0"
-    "rodear\0irAlPunto\0Visible\0cutLine\0"
-    "sm_compute\0sm_initialize\0sm_finalize"
+    "rodear\0irAlPunto\0Visible\0CalculoRecta\0"
+    "comprobarRecta\0a\0b\0c\0sm_compute\0"
+    "sm_initialize\0sm_finalize"
 };
 #undef QT_MOC_LITERAL
 
@@ -61,7 +66,7 @@ static const uint qt_meta_data_SpecificWorker[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -69,18 +74,19 @@ static const uint qt_meta_data_SpecificWorker[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   74,    2, 0x0a /* Public */,
-       3,    1,   75,    2, 0x0a /* Public */,
-       5,    0,   78,    2, 0x0a /* Public */,
-       6,    0,   79,    2, 0x0a /* Public */,
-       7,    0,   80,    2, 0x0a /* Public */,
-       8,    0,   81,    2, 0x0a /* Public */,
-       9,    0,   82,    2, 0x0a /* Public */,
-      10,    0,   83,    2, 0x0a /* Public */,
-      11,    0,   84,    2, 0x0a /* Public */,
-      12,    0,   85,    2, 0x0a /* Public */,
-      13,    0,   86,    2, 0x0a /* Public */,
-      14,    0,   87,    2, 0x0a /* Public */,
+       1,    0,   79,    2, 0x0a /* Public */,
+       3,    1,   80,    2, 0x0a /* Public */,
+       5,    0,   83,    2, 0x0a /* Public */,
+       6,    0,   84,    2, 0x0a /* Public */,
+       7,    0,   85,    2, 0x0a /* Public */,
+       8,    0,   86,    2, 0x0a /* Public */,
+       9,    0,   87,    2, 0x0a /* Public */,
+      10,    0,   88,    2, 0x0a /* Public */,
+      11,    0,   89,    2, 0x0a /* Public */,
+      12,    3,   90,    2, 0x0a /* Public */,
+      16,    0,   97,    2, 0x0a /* Public */,
+      17,    0,   98,    2, 0x0a /* Public */,
+      18,    0,   99,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -92,6 +98,7 @@ static const uint qt_meta_data_SpecificWorker[] = {
     QMetaType::Void,
     QMetaType::Bool,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Float, QMetaType::Float, QMetaType::Float,   13,   14,   15,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -114,10 +121,11 @@ void SpecificWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 6: _t->irAlPunto(); break;
         case 7: { bool _r = _t->Visible();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 8: _t->cutLine(); break;
-        case 9: _t->sm_compute(); break;
-        case 10: _t->sm_initialize(); break;
-        case 11: _t->sm_finalize(); break;
+        case 8: _t->CalculoRecta(); break;
+        case 9: _t->comprobarRecta((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2])),(*reinterpret_cast< float(*)>(_a[3]))); break;
+        case 10: _t->sm_compute(); break;
+        case 11: _t->sm_initialize(); break;
+        case 12: _t->sm_finalize(); break;
         default: ;
         }
     }
@@ -148,13 +156,13 @@ int SpecificWorker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 12;
+        _id -= 13;
     }
     return _id;
 }
