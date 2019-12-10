@@ -1,0 +1,14 @@
+/home/salabeta/robocomp/components/componentes/mission/CMakeFiles/install/strip.dir
+/home/salabeta/robocomp/components/componentes/mission/CMakeFiles/install.dir
+/home/salabeta/robocomp/components/componentes/mission/CMakeFiles/install/local.dir
+/home/salabeta/robocomp/components/componentes/mission/CMakeFiles/list_install_components.dir
+/home/salabeta/robocomp/components/componentes/mission/CMakeFiles/edit_cache.dir
+/home/salabeta/robocomp/components/componentes/mission/CMakeFiles/rebuild_cache.dir
+/home/salabeta/robocomp/components/componentes/mission/src/CMakeFiles/install/strip.dir
+/home/salabeta/robocomp/components/componentes/mission/src/CMakeFiles/edit_cache.dir
+/home/salabeta/robocomp/components/componentes/mission/src/CMakeFiles/mission.dir
+/home/salabeta/robocomp/components/componentes/mission/src/CMakeFiles/list_install_components.dir
+/home/salabeta/robocomp/components/componentes/mission/src/CMakeFiles/install/local.dir
+/home/salabeta/robocomp/components/componentes/mission/src/CMakeFiles/rebuild_cache.dir
+/home/salabeta/robocomp/components/componentes/mission/src/CMakeFiles/install.dir
+/home/salabeta/robocomp/components/componentes/mission/src/CMakeFiles/mission_autogen.dir
