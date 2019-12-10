@@ -30,7 +30,7 @@ enum Estados
 
 Estados estado = located; //Estado inicial
 float rot = 0.4;		  //Velocidad de rotacion
-int threshold = 350;	  //Limite de mm hasta un obstáculo
+int threshold = 290;	  //Limite de mm hasta un obstáculo
 float a, b, c;			  //Coeficientes para la recta
 
 /**
@@ -109,7 +109,7 @@ void SpecificWorker::compute()
  * Primeramente se comprueba si estamos cerca de un obstaculo, si es asi pasamos al estado obstaculo
  * Despues comprobamos que no estemos en el punto seleccionado, si lo estamos, el robot se para, pasamos al estado located
  * Por ultimo si no estamos ni cerca de un obstaculo ni en el punto, vamos hacia el punto con el estado goTo
- **/ 
+ **/
 void SpecificWorker::rotToTarget()
 {
 	std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
@@ -288,6 +288,34 @@ void SpecificWorker::sm_initialize()
 void SpecificWorker::sm_finalize()
 {
 	std::cout << "Entered final state finalize" << std::endl;
+}
+
+void SpecificWorker::GotoPoint_go(string nodo, float x, float y, float alpha)
+{
+	//implementCODE
+	
+}
+
+void SpecificWorker::GotoPoint_turn(float speed)
+{
+	if (speed < 1 && speed > (-1)){
+		differentialrobot_proxy->setSpeedBase(0, speed);
+	} else {
+		std::cout << "ERROR EN EL TURN" << std::endl;
+	}
+}
+
+bool SpecificWorker::GotoPoint_atTarget()
+{
+	//implementCODE
+	differentialrobot_proxy->getBaseState(bState);
+
+	return false;
+}
+
+void SpecificWorker::GotoPoint_stop()
+{
+	//implementCODE
 }
 
 void SpecificWorker::RCISMousePicker_setPick(Pick myPick)
