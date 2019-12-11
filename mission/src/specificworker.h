@@ -22,22 +22,42 @@
        @author authorname
 */
 
-
-
 #ifndef SPECIFICWORKER_H
 #define SPECIFICWORKER_H
 
+#include <iostream>
+#include <fstream>
 #include <genericworker.h>
 #include <innermodel/innermodel.h>
+#include <Qt>
 
 class SpecificWorker : public GenericWorker
 {
-Q_OBJECT
+	Q_OBJECT
 public:
 	SpecificWorker(TuplePrx tprx);
 	~SpecificWorker();
-	bool setParams(RoboCompCommonBehavior::ParameterList params);
 
+	using Tp = std::tuple<int, float, float, float>;
+	struct Tag
+	{
+		QMutex m;
+		std::vector<Tp> data;
+
+		void write(std::vector<Tp> &d)
+		{
+			QMutexLocker ml(&m);
+			data = d;
+		}
+		std::vector<Tp> read()
+		{
+			QMutexLocker ml(&m);
+			return data;
+		}
+	};
+	Tag t;
+
+	bool setParams(RoboCompCommonBehavior::ParameterList params);
 	void AprilTags_newAprilTagAndPose(tagsList tags, RoboCompGenericBase::TBaseState bState, RoboCompJointMotor::MotorStateMap hState);
 	void AprilTags_newAprilTag(tagsList tags);
 
@@ -47,15 +67,15 @@ public slots:
 	void idle();
 	void turn();
 	void checktag();
-//Specification slot methods State Machine
+	void gotoTarget();
+	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();
 	void sm_finalize();
 
-//--------------------
+	//--------------------
 private:
 	std::shared_ptr<InnerModel> innerModel;
-
 };
 
 #endif

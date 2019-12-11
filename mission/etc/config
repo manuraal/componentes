@@ -1,8 +1,8 @@
-CommonBehavior.Endpoints=tcp -p 10000
+CommonBehavior.Endpoints=tcp -p 12000
 
 
 # Endpoints for subscriptions
-AprilTagsTopic.Endpoints=tcp -p 0
+AprilTagsTopic.Endpoints=tcp -p 25000
 
 
 # Proxies for required interfaces

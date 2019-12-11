@@ -1,15 +1,14 @@
-CommonBehavior.Endpoints=tcp -p 10000
+CommonBehavior.Endpoints=tcp -p 11000
 
 # Endpoints for implemented interfaces
 GotoPoint.Endpoints=tcp -p 14000
 
 # Endpoints for subscriptions
-RCISMousePickerTopic.Endpoints=tcp -p 0
+RCISMousePickerTopic.Endpoints=tcp -p 27000
 
 # Proxies for required interfaces
 DifferentialRobotProxy = differentialrobot:tcp -h localhost -p 10004
 LaserProxy = laser:tcp -h localhost -p 10003
-GotoPointProxy= gotopoint:tcp -h localhost -p 0
 
 
 # This property is used by the clients to connect to IceStorm.

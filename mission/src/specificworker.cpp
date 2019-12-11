@@ -22,7 +22,8 @@ enum Estados
 {
 	IDLE,
 	TURN,
-	CHECKIN
+	CHECKTAG,
+	GOTO
 };
 
 Estados estado = IDLE; //Estado inicial
@@ -32,7 +33,6 @@ Estados estado = IDLE; //Estado inicial
 */
 SpecificWorker::SpecificWorker(TuplePrx tprx) : GenericWorker(tprx)
 {
-
 }
 
 /**
@@ -46,21 +46,17 @@ SpecificWorker::~SpecificWorker()
 
 bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 {
-//       THE FOLLOWING IS JUST AN EXAMPLE
-//	To use innerModelPath parameter you should uncomment specificmonitor.cpp readConfig method content
-//	try
-//	{
-//		RoboCompCommonBehavior::Parameter par = params.at("InnerModelPath");
-//		std::string innermodel_path = par.value;
-//		innerModel = new InnerModel(innermodel_path);
-//	}
-//	catch(std::exception e) { qFatal("Error reading config params"); }
-
-
+	//       THE FOLLOWING IS JUST AN EXAMPLE
+	//	To use innerModelPath parameter you should uncomment specificmonitor.cpp readConfig method content
+	//	try
+	//	{
+	//		RoboCompCommonBehavior::Parameter par = params.at("InnerModelPath");
+	//		std::string innermodel_path = par.value;
+	//		innerModel = new InnerModel(innermodel_path);
+	//	}
+	//	catch(std::exception e) { qFatal("Error reading config params"); }
 
 	defaultMachine.start();
-	
-
 
 	return true;
 }
@@ -71,87 +67,103 @@ void SpecificWorker::initialize(int period)
 	this->Period = period;
 	timer.start(Period);
 	emit this->initializetocompute();
-
 }
 
 void SpecificWorker::compute()
 {
-//computeCODE
-//QMutexLocker locker(mutex);
-//	try
-//	{
-//		camera_proxy->getYImage(0,img, cState, bState);
-//		memcpy(image_gray.data, &img[0], m_width*m_height*sizeof(uchar));
-//		searchTags(image_gray);
-//	}
-//	catch(const Ice::Exception &e)
-//	{
-//		std::cout << "Error reading from Camera" << e << std::endl;
-//	}
+	
 	switch (estado)
 	{
 		case IDLE:
 			idle();
-		break;
+			break;
 		case TURN:
 			turn();
-		break;
-		case CHECKIN:
+			break;
+		case CHECKTAG:
 			checktag();
-		break;
-	}
+			break;
+		case GOTO:
+			gotoTarget();
+			break;
+		}
 }
 
-void SpecificWorker::idle(){
+void SpecificWorker::idle()
+{
 	estado = TURN;
 }
 
-void SpecificWorker:: turn(){
+void SpecificWorker::turn()
+{
 	try
 	{
-		gotopoint_proxy->turn(0.5);
+		if (t.read().empty()  == false)
+		{
+			gotopoint_proxy->stop();
+			std::cout << "Cambio a goto" << std::endl;
+			estado = GOTO;
+			return;
+		}
+
+		gotopoint_proxy->turn(0.3);
 	}
-	catch(const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << '\n';
 	}
-	 
 }
 
-void SpecificWorker::checktag(){
+void SpecificWorker::gotoTarget()
+{
+	/* try
+	{
+		gotopoint_proxy->atTarget();
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << '\n';
+	} */
+}
 
+void SpecificWorker::checktag()
+{
 }
 
 void SpecificWorker::sm_compute()
 {
-	std::cout<<"Entered state compute"<<std::endl;
+	//std::cout << "Entered state compute" << std::endl;
 	compute();
 }
 
 void SpecificWorker::sm_initialize()
 {
-	std::cout<<"Entered initial state initialize"<<std::endl;
+	std::cout << "Entered initial state initialize" << std::endl;
 }
 
 void SpecificWorker::sm_finalize()
 {
-	std::cout<<"Entered final state finalize"<<std::endl;
+	std::cout << "Entered final state finalize" << std::endl;
 }
 
 
-
+////////////////////////////////////////////
+//  subscription
+/////////////////////////////////////////
 
 
 void SpecificWorker::AprilTags_newAprilTagAndPose(tagsList tags, RoboCompGenericBase::TBaseState bState, RoboCompJointMotor::MotorStateMap hState)
 {
-//subscribesToCODE
-
+	//subscribesToCODE
 }
 
 void SpecificWorker::AprilTags_newAprilTag(tagsList tags)
 {
-//subscribesToCODE
-
+	std::vector<Tp> tps;
+	for(const auto &t : tags)
+	{
+		tps.push_back(std::make_tuple(t.id, t.tx, t.tz, t.ry));
+		qDebug() << t.id;
+	}
+	t.write(tps);
 }
-
-

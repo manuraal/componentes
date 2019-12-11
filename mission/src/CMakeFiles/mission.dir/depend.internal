@@ -2343,6 +2343,7 @@ src/CMakeFiles/mission.dir/main.cpp.o
  /home/salabeta/anaconda3/include/qt/QtCore/QString
  /home/salabeta/anaconda3/include/qt/QtCore/QStringList
  /home/salabeta/anaconda3/include/qt/QtCore/QVariant
+ /home/salabeta/anaconda3/include/qt/QtCore/Qt
  /home/salabeta/anaconda3/include/qt/QtCore/QtCore
  /home/salabeta/anaconda3/include/qt/QtCore/QtCoreDepends
  /home/salabeta/anaconda3/include/qt/QtCore/qabstractanimation.h
@@ -2848,6 +2849,7 @@ src/CMakeFiles/mission.dir/mission_autogen/mocs_compilation.cpp.o
  /home/salabeta/anaconda3/include/qt/QtCore/QString
  /home/salabeta/anaconda3/include/qt/QtCore/QStringList
  /home/salabeta/anaconda3/include/qt/QtCore/QVariant
+ /home/salabeta/anaconda3/include/qt/QtCore/Qt
  /home/salabeta/anaconda3/include/qt/QtCore/QtCore
  /home/salabeta/anaconda3/include/qt/QtCore/QtCoreDepends
  /home/salabeta/anaconda3/include/qt/QtCore/qabstractanimation.h
@@ -3820,6 +3822,7 @@ src/CMakeFiles/mission.dir/specificworker.cpp.o
  /home/salabeta/anaconda3/include/qt/QtCore/QString
  /home/salabeta/anaconda3/include/qt/QtCore/QStringList
  /home/salabeta/anaconda3/include/qt/QtCore/QVariant
+ /home/salabeta/anaconda3/include/qt/QtCore/Qt
  /home/salabeta/anaconda3/include/qt/QtCore/QtCore
  /home/salabeta/anaconda3/include/qt/QtCore/QtCoreDepends
  /home/salabeta/anaconda3/include/qt/QtCore/qabstractanimation.h

@@ -92,6 +92,10 @@ qstringlist.h
 qvariant.h
 /home/salabeta/anaconda3/include/qt/QtCore/qvariant.h
 
+/home/salabeta/anaconda3/include/qt/QtCore/Qt
+qnamespace.h
+/home/salabeta/anaconda3/include/qt/QtCore/qnamespace.h
+
 /home/salabeta/anaconda3/include/qt/QtCore/QtCore
 QtCore/QtCoreDepends
 -
@@ -5065,9 +5069,15 @@ specificworker.h
 /home/salabeta/robocomp/components/componentes/mission/src/specificworker.h
 
 /home/salabeta/robocomp/components/componentes/mission/src/specificworker.h
+iostream
+-
+fstream
+-
 genericworker.h
 -
 innermodel/innermodel.h
+-
+Qt
 -
 
 /opt/robocomp/include/innermodel/innermodel.h

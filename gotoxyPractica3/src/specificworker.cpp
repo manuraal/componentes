@@ -76,7 +76,7 @@ void SpecificWorker::compute()
 {
 	differentialrobot_proxy->getBaseState(bState);
 	ldata = laser_proxy->getLaserData();
-	innerModel->updateTransformValues("base", bState.x, 0, bState.z, 0, bState.alpha, 0);
+	innerModel->updateTransformValues("robot", bState.x, 0, bState.z, 0, bState.alpha, 0);
 	switch (estado)
 	{
 	case located:
@@ -113,7 +113,7 @@ void SpecificWorker::compute()
 void SpecificWorker::rotToTarget()
 {
 	std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-	QVec rt = innerModel->transform("base", QVec::vec3(target.x, 0, target.z), "world");
+	QVec rt = innerModel->transform("robot", QVec::vec3(target.x, 0, target.z), "world");
 	float dist = rt.norm2();
 	float rot = atan2(rt.x(), rt.z());
 
@@ -151,7 +151,7 @@ void SpecificWorker::goToTarget()
 {
 	RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 	std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
-	QVec rt = innerModel->transform("base", QVec::vec3(target.x, 0, target.z), "world");
+	QVec rt = innerModel->transform("robot", QVec::vec3(target.x, 0, target.z), "world");
 	float dist = rt.norm2();
 	if (dist < 100)
 	{
@@ -307,15 +307,22 @@ void SpecificWorker::GotoPoint_turn(float speed)
 
 bool SpecificWorker::GotoPoint_atTarget()
 {
-	//implementCODE
 	differentialrobot_proxy->getBaseState(bState);
-
+	differentialrobot_proxy->setSpeedBase(200, 0);
 	return false;
 }
 
 void SpecificWorker::GotoPoint_stop()
 {
-	//implementCODE
+	try
+	{
+		differentialrobot_proxy->setSpeedBase(0, 0);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	
 }
 
 void SpecificWorker::RCISMousePicker_setPick(Pick myPick)
