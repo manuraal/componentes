@@ -23,7 +23,8 @@ enum Estados
 	IDLE,
 	TURN,
 	CHECKTAG,
-	GOTO
+	GOTO,
+	WAIT
 };
 
 Estados estado = IDLE; //Estado inicial
@@ -71,22 +72,26 @@ void SpecificWorker::initialize(int period)
 
 void SpecificWorker::compute()
 {
-	
+	std::cout << "Estado =";
+	std::cout << estado << std::endl;
 	switch (estado)
 	{
-		case IDLE:
-			idle();
-			break;
-		case TURN:
-			turn();
-			break;
-		case CHECKTAG:
-			checktag();
-			break;
-		case GOTO:
-			gotoTarget();
-			break;
-		}
+	case IDLE:
+		idle();
+		break;
+	case TURN:
+		turn();
+		break;
+	case CHECKTAG:
+		checktag();
+		break;
+	case GOTO:
+		gotoTarget();
+		break;
+	case WAIT:
+		waiting();
+		break;
+	}
 }
 
 void SpecificWorker::idle()
@@ -98,15 +103,13 @@ void SpecificWorker::turn()
 {
 	try
 	{
-		if (t.read().empty()  == false)
+		gotopoint_proxy->turn(0.3);
+		if (t.read().empty() == false)
 		{
 			gotopoint_proxy->stop();
 			std::cout << "Cambio a goto" << std::endl;
 			estado = GOTO;
-			return;
 		}
-
-		gotopoint_proxy->turn(0.3);
 	}
 	catch (const std::exception &e)
 	{
@@ -116,16 +119,39 @@ void SpecificWorker::turn()
 
 void SpecificWorker::gotoTarget()
 {
-	/* try
+	try
 	{
-		gotopoint_proxy->atTarget();
+		std::cout << "Entro en gototarget" << std::endl;
+		auto [nodo, x, y, alpha] = t.read().front();
+		gotopoint_proxy->go("", x, y, alpha);
+		estado = WAIT;
 	}
 	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << '\n';
-	} */
+	}
 }
 
+void SpecificWorker::waiting()
+{
+	try
+	{
+		if (gotopoint_proxy->atTarget())
+		{
+			gotopoint_proxy->stop();
+			estado = IDLE;
+		}
+		else
+		{
+			std::cout << "ESPERANDO" << std::endl;
+			usleep(1000000);
+		}
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+}
 void SpecificWorker::checktag()
 {
 }
@@ -146,11 +172,9 @@ void SpecificWorker::sm_finalize()
 	std::cout << "Entered final state finalize" << std::endl;
 }
 
-
 ////////////////////////////////////////////
 //  subscription
 /////////////////////////////////////////
-
 
 void SpecificWorker::AprilTags_newAprilTagAndPose(tagsList tags, RoboCompGenericBase::TBaseState bState, RoboCompJointMotor::MotorStateMap hState)
 {
@@ -160,7 +184,7 @@ void SpecificWorker::AprilTags_newAprilTagAndPose(tagsList tags, RoboCompGeneric
 void SpecificWorker::AprilTags_newAprilTag(tagsList tags)
 {
 	std::vector<Tp> tps;
-	for(const auto &t : tags)
+	for (const auto &t : tags)
 	{
 		tps.push_back(std::make_tuple(t.id, t.tx, t.tz, t.ry));
 		qDebug() << t.id;

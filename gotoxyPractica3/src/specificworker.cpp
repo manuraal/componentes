@@ -117,6 +117,8 @@ void SpecificWorker::rotToTarget()
 	float dist = rt.norm2();
 	float rot = atan2(rt.x(), rt.z());
 
+	std::cout << "Estoy en el rotToTarget" << std::endl;
+
 	if (ldata.front().dist < threshold)
 	{
 		estado = obstacle;
@@ -153,6 +155,8 @@ void SpecificWorker::goToTarget()
 	std::sort(ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
 	QVec rt = innerModel->transform("robot", QVec::vec3(target.x, 0, target.z), "world");
 	float dist = rt.norm2();
+	std::cout << "Estoy en el goToTarget" << std::endl;
+
 	if (dist < 100)
 	{
 		differentialrobot_proxy->setSpeedBase(0, 0);
@@ -174,6 +178,7 @@ void SpecificWorker::goToTarget()
  **/
 void SpecificWorker::obstaculo()
 {
+	std::cout << "Estoy en el obstaculo" << std::endl;
 	try
 	{
 		differentialrobot_proxy->setSpeedBase(0, rot);
@@ -195,15 +200,20 @@ void SpecificWorker::obstaculo()
  **/
 void SpecificWorker::rodear()
 {
+	std::cout << "Estoy en el rodear" << std::endl;
 	try
 	{
 		auto vector = std::min(ldata.begin(), ldata.end() - 1, [](auto &&a, auto &&b) { return (*a).dist < (*b).dist; });
 		if ((*vector).dist <= threshold + 190)
 		{
+			std::cout << "No deberia de girar pero giro" << std::endl;
+
 			differentialrobot_proxy->setSpeedBase(100, rot);
 		}
 		else if ((*vector).dist > threshold + 190)
 		{
+			std::cout << "No deberia de girar pero giro aqui" << std::endl;
+
 			differentialrobot_proxy->setSpeedBase(100, -rot);
 			if (Visible())
 			{
@@ -231,7 +241,6 @@ bool SpecificWorker::Visible()
 	}
 
 	QVec t = QVec::vec3(target.x, 0, target.z);
-	std::cout << polygon.containsPoint(QPointF(t.x(), t.z()), Qt::WindingFill) << std::endl;
 	return polygon.containsPoint(QPointF(t.x(), t.z()), Qt::WindingFill);
 }
 
@@ -253,23 +262,14 @@ void SpecificWorker::CalculoRecta()
 	a = num;
 	b = -den;
 	c = -(num * bState.x) + (den * bState.z);
-	std::cout << a << endl;
-	std::cout << b << endl;
-	std::cout << "C: ";
-	std::cout << c << endl;
-	std::cout << "----------" << endl;
-	//comprobarRecta(a, b, c);
 }
 
 void SpecificWorker::comprobarRecta(float a, float b, float c)
 {
 	float res = a * bState.x + b * bState.z + c;
 	float norm = res / (sqrt(pow(a, 2) + pow(b, 2) + pow(c, 2)));
-	std::cout << "Recta normalizada: ";
-	std::cout << norm << std::endl;
 	if (norm >= 0 && norm <= 0.05)
 	{
-		std::cout << "Estoy en la recta" << std::endl;
 		estado = rotTo;
 	}
 }
@@ -292,24 +292,31 @@ void SpecificWorker::sm_finalize()
 
 void SpecificWorker::GotoPoint_go(string nodo, float x, float y, float alpha)
 {
-	//implementCODE
-	
+	auto r = innerModel->transform("world", QVec::vec3(x, 0, y), "rgbd");
+	target.x = r.x();
+	target.z = r.z();
+	std::cout << "Target x = ";
+	std::cout << target.x << std::endl;
+	std::cout << "Target z = ";
+	std::cout << target.z << std::endl;
+	target.picked = true;
 }
 
 void SpecificWorker::GotoPoint_turn(float speed)
 {
-	if (speed < 1 && speed > (-1)){
+	if (speed < 1 && speed > (-1))
+	{
 		differentialrobot_proxy->setSpeedBase(0, speed);
-	} else {
+	}
+	else
+	{
 		std::cout << "ERROR EN EL TURN" << std::endl;
 	}
 }
 
 bool SpecificWorker::GotoPoint_atTarget()
 {
-	differentialrobot_proxy->getBaseState(bState);
-	differentialrobot_proxy->setSpeedBase(200, 0);
-	return false;
+	return !target.picked;
 }
 
 void SpecificWorker::GotoPoint_stop()
@@ -318,11 +325,10 @@ void SpecificWorker::GotoPoint_stop()
 	{
 		differentialrobot_proxy->setSpeedBase(0, 0);
 	}
-	catch(const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
 }
 
 void SpecificWorker::RCISMousePicker_setPick(Pick myPick)

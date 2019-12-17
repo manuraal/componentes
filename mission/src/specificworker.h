@@ -68,6 +68,7 @@ public slots:
 	void turn();
 	void checktag();
 	void gotoTarget();
+	void waiting();
 	//Specification slot methods State Machine
 	void sm_compute();
 	void sm_initialize();
